@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const RatingButton = (props) => {
+
+  const {handleClick, text} = props;
+
+  return (
+    <>
+    <button onClick={handleClick}>{text}</button>
+    </>
+  );
+}
+
+const Statistic = (props) => {
+  const { texts, nums } = props;
+  return (
+    <>
+    <p>{texts[0]} {nums[0]}</p>
+    <p>{texts[1]} {nums[1]}</p>
+    <p>{texts[2]} {nums[2]}</p>
+    </>
+  );
+}
+
+const App = () => {
+
+  const [goodRating, setGoodRating] = useState(0)
+  const [neutralRating, setNeutralRating] = useState(0)
+  const [badRating, setBadRating] = useState(0)
+
+  const handleRating = (rating, setRating) => {
+    console.log(rating);
+    setRating(rating+1);
+  }
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>We would like for you to give us some feedback!</h1>
+        <RatingButton text={"Good"} handleClick={() => handleRating(goodRating, setGoodRating)}></RatingButton>
+        <RatingButton text={"Neutral"} handleClick={() => handleRating(neutralRating, setNeutralRating)}></RatingButton>
+        <RatingButton text={"Bad"} handleClick={() => handleRating(badRating, setBadRating)}></RatingButton>
+
+        <Statistic texts={["Good", "Neutral", "Bad"]} nums={[goodRating, neutralRating, badRating]}></Statistic>
+        
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
 export default App
