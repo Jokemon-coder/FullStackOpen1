@@ -15,6 +15,14 @@ const RatingButton = (props) => {
 const Statistic = (props) => {
   const { texts, nums } = props;
   console.log(nums);
+  if(nums[3] == 0) {
+    return (
+      <>
+      <h2>No feeback given yet!</h2>
+      </>
+    );
+  }
+  else
   return (
     <>
     <p>{texts[0]} {nums[0]}</p>
@@ -22,7 +30,7 @@ const Statistic = (props) => {
     <p>{texts[2]} {nums[2]}</p>
     <p>{texts[3]} {nums[3]}</p>
     <p>{texts[4]} {nums[4]}</p>
-    <p>{texts[5]} {Math.round(nums[5] * 100) / 100}%</p>
+    <p>{texts[5]} {Math.round(nums[5] * 100)}%</p>
     </>
   );
 }
@@ -55,8 +63,10 @@ const App = () => {
   useEffect(() => {
     if(allRatings != 0)
     {
-    setAverage(allRatingsTotal / allRatings);
-    setTotalPositive(goodRating / allRatings)
+    const average = allRatingsTotal / allRatings;
+    const totalPositive = goodRating / allRatings;
+    setAverage(Math.round(average * 100) / 100);
+    setTotalPositive(totalPositive)
     }
   }, [allRatings])
   return (
