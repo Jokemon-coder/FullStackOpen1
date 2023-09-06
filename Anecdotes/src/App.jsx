@@ -16,6 +16,16 @@ const VoteButton = (props) => {
   );
 }
 
+const MostVoted = (props) => {
+  if(props.vote > 0)
+  return(
+    <>
+    <h1>Most voted anecdote with {props.vote} votes</h1>
+    <p>{props.anecdote}</p>
+    </>
+  )
+};
+
 const App = () => {
   const anecdotes = [
     "Programming is like sex: One mistake and you have to support it for the rest of your life.",
@@ -33,6 +43,8 @@ const App = () => {
 
   const [points, setPoints] = useState(
   [0, 0, 0, 0, 0, 0, 0, 0])
+
+  const [mostVoted, setMostVoted] = useState();
   
 
   const NextAnecdote = () => {
@@ -40,12 +52,17 @@ const App = () => {
   }
 
   const VoteAnecdote = () => {
-    setPoints([...points][selected] + 1 );
+    const newPoints = [...points];
+    newPoints[selected] = points[selected] + 1;
+    setPoints(newPoints);
   }
 
   useEffect(() => {
-    console.log(selected);
+    //VoteAnecdote();
+    //console.log(selected);
     console.log(points);
+    console.log(mostVoted);
+    setMostVoted(points.indexOf(Math.max(...points)));
   }, [selected, points])
 
   return (
@@ -56,6 +73,7 @@ const App = () => {
       <div>
         <p>has {points[selected]} votes</p>
       </div>
+      <MostVoted vote={points[mostVoted]} anecdote={JSON.stringify(anecdotes[mostVoted])}></MostVoted>
       <div>
       <NextButton nextAnecdote={NextAnecdote}></NextButton>
       <VoteButton VoteAnecdote={VoteAnecdote}></VoteButton>
